@@ -26,6 +26,12 @@ class BankAccountTest {
     void isEmailValidTest(){
         assertTrue(BankAccount.isEmailValid( "a@b.com"));   // valid email address
         assertFalse( BankAccount.isEmailValid(""));         // empty string
+        assertFalse( BankAccount.isEmailValid("ab.com"));   // missing @
+        assertFalse( BankAccount.isEmailValid("a@b"));      // missing .com
+        assertFalse( BankAccount.isEmailValid(".a@b.com")); // starts with .
+        assertFalse( BankAccount.isEmailValid("a#b@c.com")); // invalid character #
+        assertFalse(BankAccount.isEmailValid("a..b@c.com")); // double .
+        assertFalse(BankAccount.isEmailValid("a-@b.com")); // invalid character -
 
         
     }
