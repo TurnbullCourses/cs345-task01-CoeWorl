@@ -1,7 +1,10 @@
 package edu.ithaca.dturnbull.bank;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 class BankAccountTest {
@@ -31,7 +34,7 @@ class BankAccountTest {
         assertFalse( BankAccount.isEmailValid(".a@b.com")); // starts with .
         assertFalse( BankAccount.isEmailValid("a#b@c.com")); // invalid character #
         assertFalse(BankAccount.isEmailValid("a..b@c.com")); // double .
-        assertFalse(BankAccount.isEmailValid("a-@b.com")); // invalid character -
+        assertFalse(BankAccount.isEmailValid("a-@b.com")); // invalid character - //this isn't actually invalid
 
         
     }

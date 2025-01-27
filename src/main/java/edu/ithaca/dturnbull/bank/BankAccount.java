@@ -41,11 +41,14 @@ public class BankAccount {
 
     public static boolean isEmailValid(String email){
         int atChar = email.indexOf('@');
+        if (atChar == -1){
+            return false;
+        }
         if (email.substring(0,0).equals(".") || email.substring(0,0).equals("-") || email.substring(0,0).equals("_")){
             return false;
         }
         for (int i=1; i<atChar; i++){
-            if (!Character.isLetterOrDigit(email.charAt(i-1)) && !Character.isLetterOrDigit(email.charAt(i))){
+            if (!Character.isLetterOrDigit(email.charAt(i-1)) && email.charAt(i) != '.' && email.charAt(i) != '-' && email.charAt(i) != '_'){
                 return false;
             }
         }
@@ -55,10 +58,10 @@ public class BankAccount {
             }
         }
         for (int i = 1; i <email.length(); i++){
-            if (!(Character.isLetterOrDigit(email.charAt(i)) || email.charAt(i) == '.' || email.charAt(i) == '-' || email.charAt(i) == '_') || (email.charAt(i) == '@' && i == atChar)){
+            if (!(Character.isLetterOrDigit(email.charAt(i)) || email.charAt(i) == '.' || email.charAt(i) == '-' || (email.charAt(i) == '_' && i < atChar) || (email.charAt(i) == '@' && i == atChar) || (email.charAt(i) == '.' && (email.length()-i >= 2)))){
                 return false;
             }
         }
-
+        return true;
     }
-}
+    }
