@@ -23,11 +23,6 @@
       <version>5.8.2</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <artifactId>junit</artifactId>
-      <groupId>junit</groupId>
-      <version>4.11</version>
-    </dependency>
   </dependencies>
 
   <build>
@@ -37,9 +32,6 @@
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.0</version>
-          <configuration>
-                <excludeEngine>junit-vintage</excludeEngine>
-            </configuration>
         </plugin>
        
       </plugins>

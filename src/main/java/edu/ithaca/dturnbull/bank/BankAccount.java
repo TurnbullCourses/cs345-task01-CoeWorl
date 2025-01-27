@@ -40,11 +40,14 @@ public class BankAccount {
 
 
     public static boolean isEmailValid(String email){
+        if (email.equals("")){
+            return false;
+        }
         int atChar = email.indexOf('@');
         if (atChar == -1){
             return false;
         }
-        if (email.substring(0,0).equals(".") || email.substring(0,0).equals("-") || email.substring(0,0).equals("_")){
+        /*if (email.substring(0,0).equals(".") || email.substring(0,0).equals("-") || email.substring(0,0).equals("_")){
             return false;
         }
         for (int i=1; i<atChar; i++){
@@ -61,7 +64,7 @@ public class BankAccount {
             if (!(Character.isLetterOrDigit(email.charAt(i)) || email.charAt(i) == '.' || email.charAt(i) == '-' || (email.charAt(i) == '_' && i < atChar) || (email.charAt(i) == '@' && i == atChar) || (email.charAt(i) == '.' && (email.length()-i >= 2)))){
                 return false;
             }
-        }
+        }*/
         return true;
     }
     }
