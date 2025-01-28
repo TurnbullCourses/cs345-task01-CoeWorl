@@ -56,9 +56,39 @@ class BankAccountTest {
     void isAmountValidTest(){
         assertTrue(BankAccount.isAmountValid(100)); //valid amount
         assertFalse(BankAccount.isAmountValid(-100)); //negative amount
-        assertFalse(BankAccount.isAmountValid(0)); //zero amount
+        assertTrue(BankAccount.isAmountValid(0)); //zero amount
         assertTrue(BankAccount.isAmountValid(0.01)); //valid amount
-        assertFalse(BankAccount.isAmountValid(-0.01)); //negative amount
+        assertFalse(BankAccount.isAmountValid(0.0001)); //more than 2 decimals
     }
 
+    @Test
+    void depositTest() {
+        BankAccount bankAccount = new BankAccount("a@b.com", 200);
+        bankAccount.deposit(100);
+        assertEquals(300, bankAccount.getBalance(), 0.001);
+        bankAccount.deposit(0);
+        assertEquals(300, bankAccount.getBalance(), 0.001);
+        bankAccount.deposit(0.01);
+        assertEquals(300.01, bankAccount.getBalance(), 0.001);
+
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(0.0001));
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(-100));
+    }
+
+    @Test
+    void transferTest() throws InsufficientFundsException {
+        BankAccount bankAccount = new BankAccount("a@b.com", 500);
+        BankAccount other = new BankAccount("c@d.com", 500);
+
+        bankAccount.transfer(other, bankAccount, 0);
+        assertEquals(500, bankAccount.getBalance(), 0.001);
+        bankAccount.transfer(other, bankAccount, 100);
+        assertEquals(600, bankAccount.getBalance(), 0.001);
+        bankAccount.transfer(other, bankAccount, 0.01);
+        assertEquals(600.01, bankAccount.getBalance(), 0.001);
+
+        assertThrows(InsufficientFundsException.class, () -> bankAccount.transfer(other, bankAccount, 700));
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.transfer(other, bankAccount, -100));
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.transfer(other, bankAccount, 0.0001));
+    }
 }

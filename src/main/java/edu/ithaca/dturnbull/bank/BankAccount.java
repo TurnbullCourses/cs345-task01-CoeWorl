@@ -101,11 +101,44 @@ public class BankAccount {
         if (amount < 0){
             return false;
         }
-        else if (amount % 1 != 0 && amount % 0.1 != 0){
+        else if (amount % 1 != 0 && amount % 0.1 != 0 && amount % 0.01 != 0){
             return false;
         }
         else {
             return true;
+        }
+    }
+
+    /**
+     * @post increases the balance by amount if amount is non-negative
+     * @throws IllegalArgumentException if amount is negative
+     */
+    public void deposit(double amount){
+        if (isAmountValid(amount)){
+            if (amount < 0) {
+                throw new IllegalArgumentException("Cannot deposit a negative amount");
+            }
+            else {
+            balance += amount;
+            }
+        }
+        else {
+            throw new IllegalArgumentException("Amount must be valid");
+        }
+    }
+
+    /**
+         * @post transfers amount from from to to if from has enough money
+         * @throws InsufficientFundsException if from does not have enough money 
+         * 
+         */
+        public void transfer(BankAccount from, BankAccount to, double amount) throws InsufficientFundsException {
+        if (from.getBalance() >= amount){
+            from.withdraw(amount);
+            to.deposit(amount);
+        }
+        else {
+            throw new InsufficientFundsException("Not enough money");
         }
     }
 }
