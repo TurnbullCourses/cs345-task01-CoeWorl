@@ -12,14 +12,17 @@ public class BankAccount {
      * @throws IllegalArgumentException if balance is <= 0
      */
     public BankAccount(String email, double startingBalance){
-        if (isEmailValid(email)){
-            if (startingBalance >= 0){
+        if (isEmailValid(email) && isAmountValid(startingBalance)){
+            if (isAmountValid(startingBalance)){
+                if (startingBalance >= 0){
                 this.email = email;
                 this.balance = startingBalance;
+                }
+                else {
+                    throw new IllegalArgumentException("Starting balance must be greater than 0");
+                }
             }
-            else {
-                throw new IllegalArgumentException("Starting balance must be greater than 0");
-            }
+
         }
         else {
             throw new IllegalArgumentException("Email address: " + email + " is invalid, cannot create account");
@@ -39,14 +42,16 @@ public class BankAccount {
      * @throws InsufficientFundsException if amount is negative or greater than balance
      */
     public void withdraw (double amount) throws InsufficientFundsException{
-        if (amount < 0){
-            throw new IllegalArgumentException("Cannot withdraw a negative amount");
-        }
-        else if (amount <= balance){
-            balance -= amount;
-        }
-        else {
-            throw new InsufficientFundsException("Not enough money");
+        if (isAmountValid(amount)){
+            if (amount < 0){
+                throw new IllegalArgumentException("Cannot withdraw a negative amount");
+            }
+            else if (amount <= balance){
+                balance -= amount;
+            }
+            else {
+                throw new InsufficientFundsException("Not enough money");
+            }
         }
     }
 
@@ -87,4 +92,20 @@ public class BankAccount {
         }
         return true;
     }
+
+    /**
+     * @post returns true if amount is non-negative
+     * @throws IllegalArgumentException if amount is negative and decimals > 2
+     */
+    public static boolean isAmountValid(double amount){
+        if (amount < 0){
+            return false;
+        }
+        else if (amount % 1 != 0 && amount % 0.1 != 0){
+            return false;
+        }
+        else {
+            return true;
+        }
     }
+}

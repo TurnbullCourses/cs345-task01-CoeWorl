@@ -12,12 +12,15 @@ class BankAccountTest {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
 
         assertEquals(200, bankAccount.getBalance(), 0.001);
+        assertTrue(BankAccount.isAmountValid(bankAccount.getBalance()));
+
     }
 
     @Test
     void withdrawTest() throws InsufficientFundsException{
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
         bankAccount.withdraw(100);
+        assertTrue(BankAccount.isAmountValid(bankAccount.getBalance()));
 
         assertEquals(100, bankAccount.getBalance(), 0.001);
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(300));
@@ -41,11 +44,21 @@ class BankAccountTest {
     @Test
     void constructorTest() {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
+        assertTrue(BankAccount.isAmountValid(bankAccount.getBalance()));
 
         assertEquals("a@b.com", bankAccount.getEmail());
         assertEquals(200, bankAccount.getBalance(), 0.001);
         //check for exception thrown correctly
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
+    }
+
+    @Test
+    void isAmountValidTest(){
+        assertTrue(BankAccount.isAmountValid(100)); //valid amount
+        assertFalse(BankAccount.isAmountValid(-100)); //negative amount
+        assertFalse(BankAccount.isAmountValid(0)); //zero amount
+        assertTrue(BankAccount.isAmountValid(0.01)); //valid amount
+        assertFalse(BankAccount.isAmountValid(-0.01)); //negative amount
     }
 
 }
