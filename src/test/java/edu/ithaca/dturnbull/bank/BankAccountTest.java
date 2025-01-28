@@ -1,9 +1,8 @@
 package edu.ithaca.dturnbull.bank;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 class BankAccountTest {
@@ -26,14 +25,14 @@ class BankAccountTest {
 
     @Test
     void isEmailValidTest(){
-        //assertTrue(BankAccount.isEmailValid( "a@b.com"));   // valid email address
+        assertTrue(BankAccount.isEmailValid( "a@b.com"));   // valid email address
         assertFalse( BankAccount.isEmailValid(""));         // empty string
         assertFalse( BankAccount.isEmailValid("ab.com"));   // missing @
         assertFalse( BankAccount.isEmailValid("a@b"));      // missing .com
         assertFalse( BankAccount.isEmailValid(".a@b.com")); // starts with .
         assertFalse( BankAccount.isEmailValid("a#b@c.com")); // invalid character #
         assertFalse(BankAccount.isEmailValid("a..b@c.com")); // double .
-        assertFalse(BankAccount.isEmailValid("a-@b.com")); // invalid character - //this isn't actually invalid
+        assertTrue(BankAccount.isEmailValid("a-@b.com")); // invalid character - //this isn't actually invalid
 
         
     }

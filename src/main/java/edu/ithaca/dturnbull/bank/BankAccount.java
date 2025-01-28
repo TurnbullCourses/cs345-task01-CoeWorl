@@ -40,14 +40,15 @@ public class BankAccount {
 
 
     public static boolean isEmailValid(String email){
-        if (email.equals("")){
+        if (email.isEmpty()){
             return false;
         }
+        boolean hasPeriod = false;
         int atChar = email.indexOf('@');
         if (atChar == -1){
             return false;
         }
-        /*if (email.substring(0,0).equals(".") || email.substring(0,0).equals("-") || email.substring(0,0).equals("_")){
+        if (email.substring(0,1).equals(".") || email.substring(0,1).equals("-") || email.substring(0,1).equals("_")){
             return false;
         }
         for (int i=1; i<atChar; i++){
@@ -55,16 +56,23 @@ public class BankAccount {
                 return false;
             }
         }
-        for (int i = atChar + 1; i<email.length(); i++){
-            if (!Character.isLetterOrDigit(email.charAt(i-1)) && email.charAt(i) != '.' && email.charAt(i) != '-' && email.charAt(i) != '_'){
+        for (int i = atChar + 2; i<email.length(); i++){
+            if (!Character.isLetterOrDigit(email.charAt(i-1)) && (email.charAt(i) == '.' || email.charAt(i) == '-' || email.charAt(i) == '_')){
                 return false;
             }
+            if (email.charAt(i) == '.'){
+                hasPeriod = true;
+            }
         }
+        if (!hasPeriod){
+            return false;
+        }
+
         for (int i = 1; i <email.length(); i++){
             if (!(Character.isLetterOrDigit(email.charAt(i)) || email.charAt(i) == '.' || email.charAt(i) == '-' || (email.charAt(i) == '_' && i < atChar) || (email.charAt(i) == '@' && i == atChar) || (email.charAt(i) == '.' && (email.length()-i >= 2)))){
                 return false;
             }
-        }*/
+        }
         return true;
     }
     }
