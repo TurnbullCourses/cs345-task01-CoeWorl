@@ -13,7 +13,6 @@ public class BankAccount {
      */
     public BankAccount(String email, double startingBalance){
         if (isEmailValid(email) && isAmountValid(startingBalance)){
-            if (isAmountValid(startingBalance)){
                 if (startingBalance >= 0){
                 this.email = email;
                 this.balance = startingBalance;
@@ -21,11 +20,10 @@ public class BankAccount {
                 else {
                     throw new IllegalArgumentException("Starting balance must be greater than 0");
                 }
-            }
 
         }
         else {
-            throw new IllegalArgumentException("Email address: " + email + " is invalid, cannot create account");
+            throw new IllegalArgumentException("Invalid email or balance");
         }
     }
 
@@ -43,15 +41,15 @@ public class BankAccount {
      */
     public void withdraw (double amount) throws InsufficientFundsException{
         if (isAmountValid(amount)){
-            if (amount < 0){
-                throw new IllegalArgumentException("Cannot withdraw a negative amount");
-            }
-            else if (amount <= balance){
+             if (amount <= balance){
                 balance -= amount;
             }
             else {
                 throw new InsufficientFundsException("Not enough money");
             }
+        }
+        else {
+            throw new IllegalArgumentException("Amount must be valid");
         }
     }
 
@@ -132,13 +130,18 @@ public class BankAccount {
          * @throws InsufficientFundsException if from does not have enough money 
          * 
          */
-        public void transfer(BankAccount from, BankAccount to, double amount) throws InsufficientFundsException {
-        if (from.getBalance() >= amount){
-            from.withdraw(amount);
-            to.deposit(amount);
+    public void transfer(BankAccount from, BankAccount to, double amount) throws InsufficientFundsException {
+        if (to == from){
+            throw new IllegalArgumentException("Cannot transfer to the same account");
         }
-        else {
-            throw new InsufficientFundsException("Not enough money");
+        else{
+            if (from.getBalance() >= amount){
+                from.withdraw(amount);
+                to.deposit(amount);
+            }
+            else {
+                throw new InsufficientFundsException("Not enough money");
+            }
         }
     }
 }

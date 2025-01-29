@@ -50,6 +50,9 @@ class BankAccountTest {
         assertEquals(200, bankAccount.getBalance(), 0.001);
         //check for exception thrown correctly
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", -100));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 0.0001));
+        assertThrows(IllegalArgumentException.class, ()-> new BankAccount("a@b.com", 0));
     }
 
     @Test
@@ -59,6 +62,7 @@ class BankAccountTest {
         assertTrue(BankAccount.isAmountValid(0)); //zero amount
         assertTrue(BankAccount.isAmountValid(0.01)); //valid amount
         assertFalse(BankAccount.isAmountValid(0.0001)); //more than 2 decimals
+        assertFalse(BankAccount.isAmountValid(-0.01)); //negative amount
     }
 
     @Test
@@ -90,5 +94,6 @@ class BankAccountTest {
         assertThrows(InsufficientFundsException.class, () -> bankAccount.transfer(other, bankAccount, 700));
         assertThrows(IllegalArgumentException.class, () -> bankAccount.transfer(other, bankAccount, -100));
         assertThrows(IllegalArgumentException.class, () -> bankAccount.transfer(other, bankAccount, 0.0001));
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.transfer(bankAccount, bankAccount, 100));
     }
 }
